@@ -10,8 +10,20 @@ local tinyyaml = require("tinyyaml")
 -- Table to store YAML data
 yaml_data = {}
 
+-- Expand tilde to home directory
+function expandPath(filepath)
+    if filepath:sub(1,1) == "~" then
+        local home = os.getenv("HOME")
+        if home then
+            return home .. filepath:sub(2)
+        end
+    end
+    return filepath
+end
+
 -- Load a YAML file
 function loadYAML(filepath)
+    filepath = expandPath(filepath)
     local f = io.open(filepath, "r")
     if not f then
         texio.write_nl("Warning: Cannot open YAML file: " .. filepath)
@@ -44,7 +56,7 @@ end
 \end{luacode*}
 
 % Command to load a YAML file
-\newcommand{\LoadYAML}[1]{\directlua{loadYAML("#1")}}
+\newcommand{\LoadYAML}[1]{\directlua{loadYAML([[\detokenize{#1}]])}}
 
 % Command to access a value
 \newcommand{\yaml}[1]{\directlua{tex.print(getYAML("#1"))}}
