@@ -5,7 +5,7 @@ LaTeX package for professional letters.
 ## Usage
 
 ```latex
-\documentclass{professional-letter}
+\documentclass[french,12pt]{professional-letter}
 
 \begin{document}
 
@@ -21,6 +21,11 @@ LaTeX package for professional letters.
 \end{document}
 ```
 
+## Class Options
+
+- `french` / `english` (default) - Language
+- All standard article options: `10pt`, `11pt` (default), `12pt`, `a4paper` (default), `letterpaper`, etc.
+
 ## Commands
 
 ### Required
@@ -31,8 +36,8 @@ LaTeX package for professional letters.
 ### Optional (with defaults)
 - `\setlocation{city}` - Location (empty by default)
 - `\setdate{date}` - Date (`\today` by default)
-- `\setgreeting{formula}` - Greeting formula ("Dear Sir or Madam" by default)
-- `\setclosing{formula}` - Closing formula (standard by default)
+- `\setgreeting{formula}` - Greeting formula ("Dear Sir or Madam" by default) (language dependent)
+- `\setclosing{formula}` - Closing formula (standard by default) (language dependent)
 
 ### Environment
 - `\begin{myletter}...\end{myletter}` - Generates header, body and signature
