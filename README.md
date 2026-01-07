@@ -7,7 +7,8 @@ Collection of custom LaTeX models and packages.
 - **classes/** : Document classes (letters, CVs, etc.)
 - **colors/** : Color palette definitions
 - **layout/** : Margin and layout management
-- **utils/** : Utilities (links, etc.)
+- **styles/** : Visual styles (links, typography, etc.)
+- **utils/** : Technical utilities (YAML reader, etc.)
 
 ## Available Models
 

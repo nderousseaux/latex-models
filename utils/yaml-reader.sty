@@ -1,0 +1,52 @@
+\ProvidesPackage{yaml-reader}
+% YAML reader module for LuaLaTeX
+% Uses tinyyaml (included in TexLive)
+
+\RequirePackage{luacode}
+
+\begin{luacode*}
+local tinyyaml = require("tinyyaml")
+
+-- Table to store YAML data
+yaml_data = {}
+
+-- Load a YAML file
+function loadYAML(filepath)
+    local f = io.open(filepath, "r")
+    if not f then
+        texio.write_nl("Warning: Cannot open YAML file: " .. filepath)
+        return
+    end
+    local content = f:read("*all")
+    f:close()
+    yaml_data = tinyyaml.parse(content) or {}
+end
+
+-- Access a value using dot notation (e.g., "address.city")
+function getYAML(path)
+    local keys = {}
+    for key in string.gmatch(path, "[^.]+") do
+        table.insert(keys, key)
+    end
+    local val = yaml_data
+    for _, key in ipairs(keys) do
+        if val and type(val) == "table" then
+            val = val[key]
+        else
+            return ""
+        end
+    end
+    if type(val) == "table" then
+        return ""
+    end
+    return tostring(val or "")
+end
+\end{luacode*}
+
+% Command to load a YAML file
+\newcommand{\LoadYAML}[1]{\directlua{loadYAML("#1")}}
+
+% Command to access a value
+\newcommand{\yaml}[1]{\directlua{tex.print(getYAML("#1"))}}
+
+\endinput
