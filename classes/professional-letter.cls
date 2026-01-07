@@ -1,16 +1,16 @@
 % ============================================
-% CLASSE PROFESSIONNEL-LETTER.CLS
-% Classe pour lettres professionnelles
+% PROFESSIONAL-LETTER.CLS CLASS
+% Class for professional letters
 % ============================================
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{professionnal-letter}[2025/12/22 Professional Letter Class]
+\ProvidesClass{professional-letter}[2025/12/22 Professional Letter Class]
 
 
-% Basée sur article
+% Based on article
 \LoadClass[11pt,a4paper]{article}
 
-% Packages de base
+% Basic packages
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[french]{babel}
@@ -18,12 +18,12 @@
 \RequirePackage{microtype}
 \RequirePackage{graphicx}
 
-% Chargement des modules
+% Load modules
 \RequirePackage{perso/layout/small-margins}
 \RequirePackage{perso/colors/sober-colors}
 \RequirePackage{perso/utils/sober-links}
 
-% Variables globales pour stocker les infos
+% Global variables to store information
 \def\sender@name{}
 \def\sender@address{}
 \def\sender@city{}
@@ -38,10 +38,10 @@
 \def\letter@location{}
 \def\letter@date{\today}
 \def\letter@subject{}
-\def\letter@greeting{Madame, Monsieur}
-\def\letter@closing{Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.}
+\def\letter@greeting{Dear Sir or Madam}
+\def\letter@closing{Yours sincerely}
 
-% Commande pour définir l'expéditeur
+% Command to define the sender
 \newcommand{\setsender}[5]{%
     \def\sender@name{#1}%
     \def\sender@address{#2}%
@@ -50,7 +50,7 @@
     \def\sender@phone{#5}%
 }
 
-% Commande pour définir le destinataire
+% Command to define the recipient
 \newcommand{\setrecipient}[4]{%
     \def\recipient@name{#1}%
     \def\recipient@lineone{#2}%
@@ -58,34 +58,34 @@
     \def\recipient@email{#4}%
 }
 
-% Commande pour définir le lieu (optionnel)
+% Command to define the location (optional)
 \newcommand{\setlocation}[1]{%
     \def\letter@location{#1}%
 }
 
-% Commande pour définir la date
+% Command to define the date
 \newcommand{\setdate}[1]{%
     \def\letter@date{#1}%
 }
 
-% Commande pour définir l'objet
+% Command to define the subject
 \newcommand{\setsubject}[1]{%
     \def\letter@subject{#1}%
 }
 
-% Commande pour définir la formule d'appel
+% Command to define the greeting formula
 \newcommand{\setgreeting}[1]{%
     \def\letter@greeting{#1}%
 }
 
-% Commande pour définir la formule de politesse
+% Command to define the closing formula
 \newcommand{\setclosing}[1]{%
     \def\letter@closing{#1}%
 }
 
-% Affichage de l'en-tête
+% Display the header
 \newcommand{\makeheader}{%
-    % Expéditeur
+    % Sender
     \begin{minipage}[t]{0.45\textwidth}
         \textbf{\sender@name}\\
         \sender@address\\
@@ -93,7 +93,7 @@
         \href{mailto:\sender@email}{\sender@email}\\
         \href{tel:\sender@phone}{\sender@phone}
     \end{minipage}%
-    % Destinataire
+    % Recipient
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
         \raggedleft
@@ -105,30 +105,30 @@
     
     \vspace{1.5em}
     
-    % Lieu et date (lieu optionnel)
+    % Location and date (location optional)
     \noindent
     \ifx\letter@location\empty
-        % Pas de lieu, juste la date
-        Le \letter@date
+        % No location, just the date
+        \letter@date
     \else
-        % Lieu et date
-        \letter@location, le \letter@date
+        % Location and date
+        \letter@location, \letter@date
     \fi
     
     \vspace{1.5em}
     
-    % Objet
-    \noindent\textbf{Objet~:} \textbf{\letter@subject}
+    % Subject
+    \noindent\textbf{Subject:} \textbf{\letter@subject}
     
     \vspace{1em}
     
-    % Formule d'appel
+    % Greeting formula
     \noindent\letter@greeting,
     
     \vspace{0.5em}
 }
 
-% Formule de politesse
+% Closing formula
 \newcommand{\makeclosing}{%
     \vspace{1em}
     \noindent\letter@closing
@@ -143,7 +143,7 @@
     \end{minipage}
 }
 
-% Environnement pour la lettre complète
+% Environment for the complete letter
 \newenvironment{myletter}{%
     \makeheader%
 }{%

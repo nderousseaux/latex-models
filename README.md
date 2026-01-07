@@ -1,22 +1,24 @@
-# Modèles LaTeX
+# LaTeX Models
 
-Collection de modèles et packages LaTeX personnalisés.
+Collection of custom LaTeX models and packages.
 
-## Structure du projet
+## Project Structure
 
-- **classes/** : Classes de documents (lettres, CV, etc.)
-- **colors/** : Définitions de palettes de couleurs
-- **layout/** : Gestion des marges et mise en page
-- **utils/** : Utilitaires (liens, etc.)
+- **classes/** : Document classes (letters, CVs, etc.)
+- **colors/** : Color palette definitions
+- **layout/** : Margin and layout management
+- **utils/** : Utilities (links, etc.)
 
-## Modèles disponibles
+## Available Models
 
-- [Professional Letter](classes/professionnalletter.md) : Lettres professionnelles
+- [Professional Letter](classes/professional-letter.md) : Professional letters
 
 ## Installation
 
-Clonez ce dépôt dans votre répertoire `texmf/tex/latex/` local ou utilisez directement les fichiers dans votre projet LaTeX.
+Clone this repository into your local `texmf/tex/latex/` directory or use the files directly in your LaTeX project.
 
-## Utilisation
+The `setup.sh` script can be used to symlink the files into the local TeX directory (`~/Library/texmf/tex/latex/`) under the name `perso`.
 
-Consultez la documentation de chaque modèle dans son dossier respectif.
+## Usage
+
+Refer to the documentation for each model in its respective folder.
