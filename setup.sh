@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Target directory
-TARGET_DIR="$HOME/Library/texmf/tex/latex/perso"
+TARGET_DIR="$HOME/texmf/tex/latex/perso"
 
 echo "Installing LaTeX models..."
 echo "Source: $SCRIPT_DIR"
@@ -45,8 +45,8 @@ if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Installation successful!${NC}"
     echo ""
     echo "You can now use the models with:"
-    echo "  \\RequirePackage{perso/...}"
-    echo "  \\documentclass{perso/classes/...}"
+    echo "  \\RequirePackage{packageName}"
+    echo "  \\documentclass{className}"
 else
     echo -e "${RED}✗ Error creating symbolic link.${NC}"
     exit 1

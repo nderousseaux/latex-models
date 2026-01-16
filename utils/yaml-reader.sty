@@ -7,8 +7,11 @@
 \begin{luacode*}
 local tinyyaml = require("tinyyaml")
 
--- Table to store YAML data
+-- Table to store all YAML data with prefixes
+yaml_stores = {}
+-- Current active store (for backward compatibility)
 yaml_data = {}
+current_prefix = ""
 
 -- Expand tilde to home directory
 function expandPath(filepath)
@@ -21,7 +24,7 @@ function expandPath(filepath)
     return filepath
 end
 
--- Load a YAML file
+-- Load a YAML file (backward compatible - overwrites yaml_data)
 function loadYAML(filepath)
     filepath = expandPath(filepath)
     local f = io.open(filepath, "r")
@@ -32,18 +35,47 @@ function loadYAML(filepath)
     local content = f:read("*all")
     f:close()
     yaml_data = tinyyaml.parse(content) or {}
+    current_prefix = ""
 end
 
--- Access a value using dot notation (e.g., "address.city")
+-- Load a YAML file with a prefix
+function loadYAMLAs(filepath, prefix)
+    filepath = expandPath(filepath)
+    local f = io.open(filepath, "r")
+    if not f then
+        texio.write_nl("Warning: Cannot open YAML file: " .. filepath)
+        return
+    end
+    local content = f:read("*all")
+    f:close()
+    yaml_stores[prefix] = tinyyaml.parse(content) or {}
+end
+
+-- Access a value using dot notation (e.g., "address.city" or "me.address.city")
 function getYAML(path)
     local keys = {}
     for key in string.gmatch(path, "[^.]+") do
         table.insert(keys, key)
     end
-    local val = yaml_data
+    
+    -- Check if the first key is a prefix
+    local val = nil
+    if yaml_stores[keys[1]] then
+        val = yaml_stores[keys[1]]
+        table.remove(keys, 1)
+    else
+        val = yaml_data
+    end
+    
     for _, key in ipairs(keys) do
         if val and type(val) == "table" then
-            val = val[key]
+            -- Try numeric index first (for arrays)
+            local numKey = tonumber(key)
+            if numKey then
+                val = val[numKey]
+            else
+                val = val[key]
+            end
         else
             return ""
         end
@@ -53,10 +85,46 @@ function getYAML(path)
     end
     return tostring(val or "")
 end
+
+-- Get array length
+function getYAMLLength(path)
+    local keys = {}
+    for key in string.gmatch(path, "[^.]+") do
+        table.insert(keys, key)
+    end
+    
+    local val = nil
+    if yaml_stores[keys[1]] then
+        val = yaml_stores[keys[1]]
+        table.remove(keys, 1)
+    else
+        val = yaml_data
+    end
+    
+    for _, key in ipairs(keys) do
+        if val and type(val) == "table" then
+            local numKey = tonumber(key)
+            if numKey then
+                val = val[numKey]
+            else
+                val = val[key]
+            end
+        else
+            return 0
+        end
+    end
+    if type(val) == "table" then
+        return #val
+    end
+    return 0
+end
 \end{luacode*}
 
-% Command to load a YAML file
+% Command to load a YAML file (backward compatible)
 \newcommand{\LoadYAML}[1]{\directlua{loadYAML([[\detokenize{#1}]])}}
+
+% Command to load a YAML file with a prefix
+\newcommand{\LoadYAMLAs}[2]{\directlua{loadYAMLAs([[\detokenize{#1}]], [[#2]])}}
 
 % Command to access a value
 \newcommand{\yaml}[1]{\directlua{tex.print(getYAML("#1"))}}

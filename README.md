@@ -18,7 +18,7 @@ Collection of custom LaTeX models and packages.
 
 Clone this repository into your local `texmf/tex/latex/` directory or use the files directly in your LaTeX project.
 
-The `setup.sh` script can be used to symlink the files into the local TeX directory (`~/Library/texmf/tex/latex/`) under the name `perso`.
+The `setup.sh` script can be used to symlink the files into the local TeX directory (`~/texmf/tex/latex/`) under the name `perso`.
 
 ## Usage
 
